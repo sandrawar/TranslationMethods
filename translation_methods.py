@@ -6,20 +6,17 @@ except LookupError:
     nltk.download('punkt')
 
 import streamlit as st
-import argostranslate.package
-import argostranslate.translate
 import sacrebleu
 from comet import load_from_checkpoint
 from nltk.translate.meteor_score import meteor_score
+
 from BruteTranslator import *
+from STMTranslator import *
 
 
 @st.cache_resource
 def get_smt_translator():
-    installed_languages = argostranslate.translate.get_installed_languages()
-    from_lang = next(filter(lambda x: x.code == "en", installed_languages))
-    to_lang = next(filter(lambda x: x.code == "pl", installed_languages))
-    return from_lang.get_translation(to_lang)
+    return STMTranslator()
 
 @st.cache_resource
 def load_comet_model():
